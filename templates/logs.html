@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block content %}
+<h1>{{ header }}</h1>
+<hr />
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Timestamp</th>
+      <th>App Name</th>
+      <th>Log Level</th>
+      <th>Message</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for log in logs %}
+    <tr>
+      <td>{{ log.timestamp }}</td>
+      <td>{{ log.app_name }}</td>
+      <td>{{ log.log_level }}</td>
+      <td>{{ log.message }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="pagination justify-content-center">{{ pagination.links }}</div>
+{% endblock %}
