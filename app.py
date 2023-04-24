@@ -21,7 +21,7 @@ app.logger.addHandler(handler)
 logger.addHandler(handler)
 logger.info("Starting the application...")
 
-per_page = 50
+per_page = 100
 
 
 # Define routes

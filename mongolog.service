@@ -1,0 +1,11 @@
+[Unit]
+Description=Mongolog Viewer
+After=network.target
+
+[Service]
+User=<username>
+WorkingDirectory=/path/to/app
+ExecStart=/path/to/venv/bin/gunicorn --workers 3 --bind unix:/tmp/mongolog.sock wsgi:app
+
+[Install]
+WantedBy=multi-user.target
