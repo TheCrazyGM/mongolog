@@ -8,7 +8,7 @@ After=network.target
 [Service]
 User=<username>
 WorkingDirectory=/path/to/app
-ExecStart=/path/to/venv/bin/gunicorn --workers 3 --bind unix:/tmp/mongolog.sock wsgi:app
+ExecStart=/path/to/venv/bin/gunicorn --workers 3 --bind unix:/tmp/mongolog.sock app:app
 
 [Install]
 WantedBy=multi-user.target
@@ -22,7 +22,7 @@ WantedBy=multi-user.target
 [Service]
 User=<username>
 WorkingDirectory=/path/to/app
-ExecStart=/path/to/venv/bin/gunicorn --workers 3 --bind 0.0.0.0:8080 wsgi:app
+ExecStart=/path/to/venv/bin/gunicorn --workers 3 --bind 0.0.0.0:8080 app:app
 ```
 
 Note that we changed the --bind option to 0.0.0.0:8080, which means the app will listen on all available
