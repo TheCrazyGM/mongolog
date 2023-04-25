@@ -18,8 +18,6 @@ class MongoHandler(logging.Handler):
             "app_name": record.name,
             "log_level": record.levelname,
             "message": record.msg,
-            "timestamp": datetime.datetime.fromtimestamp(record.created).strftime(
-                "%Y-%m-%d %H:%M:%S"
-            ),
+            "timestamp": datetime.datetime.fromtimestamp(record.created),
         }
         self.collection.insert_one(log_document)

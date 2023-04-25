@@ -1,5 +1,6 @@
 import csv
 import logging
+from datetime import datetime, timedelta
 from io import StringIO
 
 from flask import Flask, jsonify, make_response, render_template, request
@@ -57,7 +58,7 @@ def index(level=None):
     return render_template("logs.html", logs=logs, pagination=pagination, header=header)
 
 
-@app.route("/export/csv")
+@app.route("/api/csv")
 def export_csv():
     # Retrieve the logs from the database
     logs_cursor = collection.find()
@@ -89,11 +90,23 @@ def export_csv():
     return response
 
 
-@app.route("/export/json")
+@app.route("/api/json")
 def export_json():
     # Retrieve the logs from the database and convert them to a list of dictionaries
     logs_list = list(collection.find({}, {"_id": False}))
     return jsonify(logs_list)
+
+
+@app.route("/api/prune")
+def prune_logs():
+    # Calculate the date one week ago from the current date
+    one_week_ago = datetime.utcnow() - timedelta(weeks=1)
+
+    # Delete all logs older than one week
+    result = collection.delete_many({"timestamp": {"$lt": one_week_ago}})
+
+    # Return a JSON response with the number of deleted logs
+    return jsonify({"message": f"Deleted {result.deleted_count} logs."})
 
 
 if __name__ == "__main__":
