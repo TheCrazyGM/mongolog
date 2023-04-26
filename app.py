@@ -14,10 +14,13 @@ app = Flask("mongolog")
 mongo_uri = "mongodb://localhost:27017/"
 mongo_db = "logs"
 mongo_collection = "logs"
+logger = logging.getLogger("mongolog")
+logger.setLevel(logging.DEBUG)
 handler = MongoHandler(mongo_uri, mongo_db, mongo_collection)
 handler.setLevel(logging.DEBUG)
 app.logger.addHandler(handler)
-app.logger.info("Starting the application...")
+logger.addHandler(handler)
+logger.info("Starting the application...")
 
 per_page = 100
 
