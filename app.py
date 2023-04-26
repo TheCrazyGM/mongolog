@@ -1,6 +1,6 @@
 import csv
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from io import StringIO
 
 from flask import Flask, jsonify, make_response, render_template, request
@@ -92,20 +92,22 @@ def export_csv():
 
 @app.route("/api/json")
 def export_json():
-    # Retrieve the logs from the database and convert them to a list of dictionaries
+    # Retrieve all documents from MongoDB and convert them into list of dictionaries.
     logs_list = list(collection.find({}, {"_id": False}))
+
+    # Return JSON representation of list.
     return jsonify(logs_list)
 
 
 @app.route("/api/prune")
 def prune_logs():
-    # Calculate the date one week ago from the current date
-    one_week_ago = datetime.utcnow() - timedelta(weeks=1)
+    # Calculate date one week ago from current date.
+    one_week_ago = datetime.now(timezone.utc) - timedelta(weeks=1)
 
-    # Delete all logs older than one week
+    # Delete all documents older than one week.
     result = collection.delete_many({"timestamp": {"$lt": one_week_ago}})
 
-    # Return a JSON response with the number of deleted logs
+    # Return JSON response with number of deleted documents.
     return jsonify({"message": f"Deleted {result.deleted_count} logs."})
 
 
