@@ -19,8 +19,7 @@ logger.setLevel(logging.DEBUG)
 handler = MongoHandler(mongo_uri, mongo_db, mongo_collection)
 handler.setLevel(logging.DEBUG)
 app.logger.addHandler(handler)
-logger.addHandler(handler)
-logger.info("Starting the application...")
+app.logger.info("Starting the application...")
 
 per_page = 100
 
