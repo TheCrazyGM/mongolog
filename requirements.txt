@@ -11,5 +11,5 @@ mypy-extensions==1.0.0
 packaging==23.1
 pathspec==0.11.1
 platformdirs==3.5.0
-pymongo==4.3.3
+pymongo==4.6.3
 Werkzeug==3.0.1
